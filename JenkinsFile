@@ -62,7 +62,7 @@ pipeline {
 
     steps {
       script {
-        mvn -v
+        sh 'mvn -B -DskipTests clean package'
       }
     }
   }
