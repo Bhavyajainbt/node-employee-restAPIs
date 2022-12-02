@@ -32,6 +32,7 @@ pipeline {
     stage('Refresh Parameters') {
       steps {
         sh 'git version'
+        sh 'whoami'
       }
     }
 
