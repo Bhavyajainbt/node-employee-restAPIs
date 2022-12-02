@@ -53,18 +53,18 @@ pipeline {
     }
   }
 
-    stage('Build the Code')
-      when {
-        expression {
-          params.ACTION == 'BUILD' && params.TOGGLE == true
-        }
+  stage('Build the Code')
+    when {
+      expression {
+        params.ACTION == 'BUILD' && params.TOGGLE == true
       }
+    }
 
-      steps {
-        script {
-          mvn install -DskipTests=true
-        }
+    steps {
+      script {
+        sh 'mvn install -DskipTests=true'
       }
+    }
   }
   post {
     success {
