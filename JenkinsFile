@@ -32,7 +32,8 @@ pipeline {
     stage('Refresh Parameters') {
       steps {
         sh 'git version'
-        sh 'whoami'
+        sh 'export MAVEN_HOME=/opt/apache-maven-3.8.6'
+        sh 'export PATH=$PATH:$MAVEN_HOME/bin'
         sh 'mvn -v'
       }
     }
