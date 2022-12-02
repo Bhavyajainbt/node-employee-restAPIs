@@ -45,6 +45,14 @@ pipeline {
       }
     }
 
+  stage('GIT Checkout') {
+    steps {
+      script {
+        git branch: 'main', url: 'https://github.com/Bhavyajainbt/node-employee-restAPIs.git'
+      }
+    }
+  }
+
     stage('Build the Code')
       when {
         expression {
