@@ -23,7 +23,7 @@ pipeline {
   parameters {
     choice(name: 'REFRESH', choices: ['no', 'yes'], description: 'Please select refresh parameters as Yes if you want to refresh the parameters.')
     choice(name: 'ENVIRONMENT', choices: ['', 'dev', 'test'], description: 'Select deploy Environment')
-    choices(name: 'ACTION', choices: ['','BUILD','TEST','DEPLOY'], description: 'Select the action to be done. DEPLOY will build, test and deploy the code.')
+    choice(name: 'ACTION', choices: ['','BUILD','TEST','DEPLOY'], description: 'Select the action to be done. DEPLOY will build, test and deploy the code.')
     booleanParam(name: 'TOGGLE', defaultValue: false, description: 'Are you sure you want to perform this action?')
   }
 
