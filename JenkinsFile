@@ -62,7 +62,7 @@ pipeline {
 
     steps {
       script {
-        sh 'mvn install -DskipTests=true'
+        mvn -v
       }
     }
   }
