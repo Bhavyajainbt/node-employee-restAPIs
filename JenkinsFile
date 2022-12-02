@@ -1,0 +1,66 @@
+import groovy.transform.Field
+
+
+def success() {
+  echo "\033[1;32m[Executed Successfully] \033[0m"
+}
+
+def error() {
+  echo "\033[1;31m[Failed to Execute] \033[0m "
+}
+
+def unstable() {
+  echo "\033[1;33m[Unstable] \033[0m "
+}
+
+pipeline {
+  agent any
+
+  options {
+    ansiColor('xterm')
+  }
+
+  parameters {
+    choice(name: 'REFRESH', choices: ['no', 'yes'], description: 'Please select refresh parameters as Yes if you want to refresh the parameters.')
+    choice(name: 'ENVIRONMENT', choices: ['', 'dev', 'test'], description: 'Select deploy Environment')
+    choices(name: 'ACTION', choices: ['','BUILD','TEST','DEPLOY'], description: 'Select the action to be done. DEPLOY will build, test and deploy the code.')
+    booleanParam(name: 'TOGGLE', defaultValue: false, description: 'Are you sure you want to perform this action?')
+  }
+
+  stages {
+    stage('Refresh Parameters') {
+      steps {
+        sh 'git version'
+      }
+    }
+
+    stage('Action Check') {
+      steps {
+        script {
+          if (!params.TOGGLE) {
+            sh 'whoami'
+            currentBuild.result = 'ABORTED' //If you do not set the toggle flag to true before executing the build action, it will automatically abort the pipeline for any action.
+          }
+        }
+      }
+    }
+
+    stage('Build the Code')
+      when {
+        expression {
+          params.ACTION == 'BUILD' && params.TOGGLE == true
+        }
+      }
+
+      steps {
+        script {
+          mvn install -DskipTests=true
+        }
+      }
+  }
+  post {
+    success {
+      success()
+    }
+  }
+}
