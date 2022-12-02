@@ -18,6 +18,7 @@ pipeline {
 
   options {
     ansiColor('xterm')
+    skipDefaultCheckout(true)
   }
 
   parameters {
