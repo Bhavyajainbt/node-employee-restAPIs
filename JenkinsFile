@@ -33,6 +33,7 @@ pipeline {
       steps {
         sh 'git version'
         sh 'whoami'
+        sh 'mvn -v'
       }
     }
 
