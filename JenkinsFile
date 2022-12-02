@@ -32,8 +32,8 @@ pipeline {
     stage('Refresh Parameters') {
       steps {
         sh 'git version'
-        sh 'export MAVEN_HOME=/opt/apache-maven-3.8.6'
-        sh 'export PATH=$PATH:$MAVEN_HOME/bin'
+        sh 'export M2_HOME=/opt/apache-maven-3.8.6'
+        sh 'export PATH=$PATH:$M2_HOME/bin'
         sh 'mvn -v'
       }
     }
