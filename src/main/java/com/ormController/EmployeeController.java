@@ -1,11 +1,14 @@
 package com.ormController;
 
+import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,15 +42,27 @@ public class EmployeeController {
 	
 	@GetMapping(value="/employee/getEmployeeById")
 	@ResponseStatus(value=HttpStatus.OK)
-	public @ResponseBody String getEmployee(@RequestBody Employee employee) throws Exception {
+	public @ResponseBody Object getEmployee(@RequestBody Employee employee) throws Exception {
 		
         try {
     		Employee e = employeeRepository.findById(employee.getEmployeeId()).get();
-            return tranformer.convertObjectToJsonString(e);
+            //return tranformer.convertObjectToJsonString(e);
+    		return e;
         }
         catch(NoSuchElementException nse) {
 			throw new ResourceNotFoundException("Resource not found for Id "+ employee.getEmployeeId());
         }
+	}
+	
+	@GetMapping(value="/employee/getEmployeeByDesignation")
+	public ResponseEntity<?> getEmployeeByDesignation(@RequestBody Employee employee) {
+		List<Employee> employees = employeeRepository.findAllByEmployeeDesignation(employee.getEmployeeDesignation());
+		
+		if(employees.size() == 0) {
+			return new ResponseEntity<>("No employee with this designation exists",HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(employees,HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/employee/getAllEmployees")
