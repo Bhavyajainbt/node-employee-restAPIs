@@ -29,51 +29,49 @@ pipeline {
   }
 
   stages {
-    stage('PRE-CHECKS') {
+
+    stage('GIT Checkout') {
       steps {
-        if(params.BRANCH == ""){
-          sh "echo 'Please select branch!!'"
-          currentBuild.result = 'ABORTED'
-        }
-        if(params.ACTION == ""){
-          sh "echo 'Please select action to perform!!'"
-          currentBuild.result = 'ABORTED'
+        script {
+          git branch: 'main', url: 'https://github.com/Bhavyajainbt/node-employee-restAPIs.git'
         }
       }
     }
 
-    stage('Action Check') {
+
+    stage('PRE-CHECKS') {
       steps {
-        script {
-          if (!params.TOGGLE) {
-            currentBuild.result = 'ABORTED' //If you do not set the toggle flag to true before executing the build action, it will automatically abort the pipeline for any action.
+        script{
+            if(params.BRANCH == ""){
+              sh "echo 'Please select branch!!'"
+              currentBuild.result = 'ABORTED'
+          }
+            if(params.ACTION == ""){
+              sh "echo 'Please select action to perform!!'"
+              currentBuild.result = 'ABORTED'
+          }
+            if (!params.TOGGLE) {
+              sh "echo 'Please mark the Toggle checkbox!!'"
+              currentBuild.result = 'ABORTED' //If you do not set the toggle flag to true before executing the build action, it will automatically abort the pipeline for any action.
           }
         }
       }
     }
 
-  stage('GIT Checkout') {
-    steps {
-      script {
-        git branch: 'main', url: 'https://github.com/Bhavyajainbt/node-employee-restAPIs.git'
+    stage('Build'){
+      when {
+        expression {
+          params.ACTION == 'DEPLOY' && params.TOGGLE == true
+        }
+      }
+
+      steps {
+        script {
+          sh 'mvn -B -DskipTests clean package'
+        }
       }
     }
   }
-
-  stage('Build'){
-    when {
-      expression {
-        params.ACTION == 'DEPLOY' && params.TOGGLE == true
-      }
-    }
-
-    steps {
-      script {
-        sh 'mvn -B -DskipTests clean package'
-      }
-    }
-  }
-}
   post {
     success {
       success()
