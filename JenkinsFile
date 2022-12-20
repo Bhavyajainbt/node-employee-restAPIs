@@ -49,7 +49,7 @@ pipeline {
 
       steps {
         script{
-            whoami
+            sh 'whoami'
             if(params.BRANCH == ""){
               sh "echo 'Please select branch!!'"
               currentBuild.result = 'ABORTED'
