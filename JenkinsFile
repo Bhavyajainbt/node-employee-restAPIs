@@ -50,6 +50,7 @@ pipeline {
       steps {
         script{
             sh 'whoami'
+            sh 'pwd'
             if(params.BRANCH == ""){
               sh "echo 'Please select branch!!'"
               currentBuild.result = 'ABORTED'
