@@ -75,10 +75,8 @@ pipeline {
       }
 
       steps {
-        script {
-          sh 'whoami'
-          sh 'mvn -B -DskipTests clean package'
-          sh 'whoami'
+        withMaven(maven: 'mvn') {
+          sh "mvn clean package"
         }
       }
     }
