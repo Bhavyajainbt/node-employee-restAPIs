@@ -23,15 +23,22 @@ pipeline {
 
   parameters {
     choice(name: 'REFRESH', choices: ['no', 'yes'], description: 'Please select refresh parameters as Yes if you want to refresh the parameters.')
-    choice(name: 'ENVIRONMENT', choices: ['', 'dev', 'test'], description: 'Select deploy Environment')
-    choice(name: 'ACTION', choices: ['','BUILD','TEST','DEPLOY'], description: 'Select the action to be done. DEPLOY will build, test and deploy the code.')
+    choice(name: 'BRANCH', choices: ['', 'dev', 'test','main'], description: 'Select Branch to build')
+    choice(name: 'ACTION', choices: ['','DEPLOY'], description: 'Select the action to be done. DEPLOY will build, test and deploy the code.')
     booleanParam(name: 'TOGGLE', defaultValue: false, description: 'Are you sure you want to perform this action?')
   }
 
   stages {
-    stage('Refresh Parameters') {
+    stage('PRE-CHECKS') {
       steps {
-        sh 'git version'
+        if(params.BRANCH == ""){
+          sh "echo 'Please select branch!!'"
+          currentBuild.result = 'ABORTED'
+        }
+        if(params.ACTION == ""){
+          sh "echo 'Please select action to perform!!'"
+          currentBuild.result = 'ABORTED'
+        }
       }
     }
 
@@ -39,7 +46,6 @@ pipeline {
       steps {
         script {
           if (!params.TOGGLE) {
-            sh 'whoami'
             currentBuild.result = 'ABORTED' //If you do not set the toggle flag to true before executing the build action, it will automatically abort the pipeline for any action.
           }
         }
@@ -54,10 +60,10 @@ pipeline {
     }
   }
 
-  stage('Build the Code'){
+  stage('Build'){
     when {
       expression {
-        params.ACTION == 'BUILD' && params.TOGGLE == true
+        params.ACTION == 'DEPLOY' && params.TOGGLE == true
       }
     }
 
