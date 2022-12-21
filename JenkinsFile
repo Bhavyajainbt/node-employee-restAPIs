@@ -106,7 +106,7 @@ pipeline {
 
             steps {
                 script {
-                    sh 'sudo docker run -d -p 8082:8082 -name orm-container orm-image'
+                    sh 'sudo docker run -d -p 8082:8082 --name orm-container orm-image'
               }
             }
         }
