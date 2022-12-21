@@ -92,7 +92,7 @@ pipeline {
 
             steps {
                 script {
-                    sh 'sudo docker build -t ormImage .'
+                    sh 'sudo docker build -t orm-image .'
               }
             }
         }
