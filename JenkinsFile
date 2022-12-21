@@ -16,10 +16,6 @@ def unstable() {
 pipeline {
   agent any
 
-  tools {
-    maven 'Maven 3.8.6'
-  }
-
   options {
     ansiColor('xterm')
     skipDefaultCheckout(true)
@@ -79,7 +75,7 @@ pipeline {
       }
 
       steps {
-        sh 'mvn -v'
+        sh 'mvn -B -DskipTests clean package'
       }
     }
   }
