@@ -83,6 +83,20 @@ pipeline {
             }
         }
 
+        stage('UNIT TESTING') {
+            when {
+                expression {
+                    params.REFRESH == 'no' && params.ACTION == 'DEPLOY' && params.TOGGLE == true
+                }
+            }
+
+            steps {
+                script {
+                    sh 'mvn test'
+                }
+            }
+        }
+
         stage('Build New Docker Image') {
             when {
                 expression {
