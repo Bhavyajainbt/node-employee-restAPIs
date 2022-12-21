@@ -80,7 +80,7 @@ pipeline {
 
       steps {
         script {
-          sh "chmod +x -R ${env.WORKSPACE}"
+          sh "sudo chmod +x -R ${env.WORKSPACE}"
           sh 'mvn -B -DskipTests clean package'
         }
       }
