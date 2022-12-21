@@ -16,6 +16,10 @@ def unstable() {
 pipeline {
   agent any
 
+  tools { 
+      maven 'MAVEN_HOME'
+    }
+
   options {
     ansiColor('xterm')
     skipDefaultCheckout(true)
