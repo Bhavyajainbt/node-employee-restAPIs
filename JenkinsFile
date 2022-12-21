@@ -96,6 +96,20 @@ pipeline {
               }
             }
         }
+
+        stage('Deploy container') {
+            when {
+                expression {
+                    params.REFRESH == 'no' && params.ACTION == 'DEPLOY' && params.TOGGLE == true
+                }
+            }
+
+            steps {
+                script {
+                    sh 'sudo docker run -d -p 8082:8082 -name orm-container orm-image'
+              }
+            }
+        }
     }
     post {
         success {
