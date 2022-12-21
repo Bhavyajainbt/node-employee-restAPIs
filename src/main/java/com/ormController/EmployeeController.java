@@ -54,7 +54,7 @@ public class EmployeeController {
         }
 	}
 	
-	@GetMapping(value="/employee/getEmployeeByDesignation")
+	@GetMapping(value="/employee/getEmployeeByDesignationName")
 	public ResponseEntity<?> getEmployeeByDesignation(@RequestBody Employee employee) {
 		List<Employee> employees = employeeRepository.findAllByEmployeeDesignation(employee.getEmployeeDesignation());
 		
