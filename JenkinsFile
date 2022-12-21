@@ -81,7 +81,7 @@ pipeline {
       steps {
         script {
           sh "sudo chmod +x -R ${env.WORKSPACE}"
-          sh 'mvn -B -DskipTests clean package'
+          sh 'mvn -B -DskipTests package'
         }
       }
     }
