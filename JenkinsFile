@@ -12,6 +12,8 @@ def unstable() {
 }
 
 /* groovylint-disable-next-line CompileStatic */
+
+currentBuild.displayName = "Node-rest-APIs-#"+currentBuild.number
 pipeline {
     agent any
 
@@ -38,7 +40,6 @@ pipeline {
             steps {
                 script {
                     git branch: 'main', url: 'https://github.com/Bhavyajainbt/node-employee-restAPIs.git'
-                    //currentBuild.rawBuild.project.setDisplayName('NODE-REST-APIs')
                 }
             }
         }
