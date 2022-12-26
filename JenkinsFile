@@ -83,7 +83,7 @@ pipeline {
             }
         }
 
-        stage('UNIT TESTING') {
+        /*stage('UNIT TESTING') {
             when {
                 expression {
                     params.REFRESH == 'no' && params.ACTION == 'DEPLOY' && params.TOGGLE == true
@@ -123,7 +123,7 @@ pipeline {
                     sh 'sudo docker run -d -p 8082:8082 --name orm-container orm-image'
               }
             }
-        }
+        }*/
     }
     post {
         success {
