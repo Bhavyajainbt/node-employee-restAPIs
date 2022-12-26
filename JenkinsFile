@@ -39,6 +39,7 @@ pipeline {
                 script {
                     git branch: 'main', url: 'https://github.com/Bhavyajainbt/node-employee-restAPIs.git'
                 }
+                currentBuild.displayName="Node-rest-APIs-pipeline"
             }
         }
 
