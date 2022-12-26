@@ -11,8 +11,6 @@ def unstable() {
     echo "\033[1;33m[Unstable] \033[0m "
 }
 
-/* groovylint-disable-next-line CompileStatic */
-
 currentBuild.displayName = "Node-rest-APIs-#"+currentBuild.number
 pipeline {
     agent any
@@ -27,10 +25,8 @@ pipeline {
     }
 
     parameters {
-        /* groovylint-disable-next-line LineLength */
         choice(name: 'REFRESH', choices: ['no', 'yes'], description: 'Please select refresh parameters as Yes if you want to refresh the parameters.')
         choice(name: 'BRANCH', choices: ['', 'dev', 'test', 'main'], description: 'Select Branch to build')
-        /* groovylint-disable-next-line LineLength */
         choice(name: 'ACTION', choices: ['', 'DEPLOY'], description: 'Select the action to be done. DEPLOY will build, test and deploy the code.')
         booleanParam(name: 'TOGGLE', defaultValue: false, description: 'Are you sure you want to perform this action?')
     }
